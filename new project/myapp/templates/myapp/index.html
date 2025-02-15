@@ -1,0 +1,23 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Home - Online Store{% endblock %}
+
+{% block myhdg %}Hello, <strong>Group 5</strong>!{% endblock %}
+
+{% block body_block %}
+    <div class="container">
+        <h2>List of Categories</h2>
+        <ul class="category-list">
+            {% for cat in cat_list %}
+                <li><a href="{% url 'myapp:detail' cat.id %}">{{ cat.name }}</a></li>
+            {% endfor %}
+        </ul>
+
+        <h2>Top 5 Most Expensive Products</h2>
+        <ul class="product-list">
+            {% for product in product_list %}
+                <li>{{ product.name }} - ${{ product.price }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

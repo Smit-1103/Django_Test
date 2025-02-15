@@ -1,0 +1,21 @@
+{% extends "myapp/base.html" %}
+
+{% block title %}Category Details{% endblock %}
+
+{% block body_block %}
+<div class="container">
+    <h2>{{ category.name }}</h2>
+    <p><strong>Warehouse Location:</strong> {{ category.warehouse }}</p>
+
+    <h3>Products in this Category:</h3>
+    {% if products %}
+        <ul class="product-list">
+            {% for product in products %}
+                <li>{{ product.name }} - ${{ product.price }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No products available in this category.</p>
+    {% endif %}
+</div>
+{% endblock %}
