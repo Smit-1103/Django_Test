@@ -1,0 +1,39 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block title %}
+  Products
+{% endblock %}
+
+{% block myhdg %}
+  Product List
+{% endblock %}
+
+{% block body_block %}
+<!-- Outer container for consistent styling -->
+<div class="container">
+
+  <!-- A UL using the .product-list class from your CSS -->
+  <ul class="product-list">
+    {% for p in prodlist %}
+      <!-- Each product as an LI “card” -->
+      <li>
+        <!-- Product name linking to detail page -->
+        <a href="{% url 'myapp:productdetail' p.id %}">{{ p.name }}</a>
+        - ${{ p.price }}
+        {% if p.available %}
+          (In stock: {{ p.stock }})
+        {% else %}
+          (Not available)
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+
+  <!-- Link to place a new order -->
+  <p style="margin-top: 20px;">
+    <a href="{% url 'myapp:place_order' %}">Place a New Order</a>
+  </p>
+
+</div>
+{% endblock %}

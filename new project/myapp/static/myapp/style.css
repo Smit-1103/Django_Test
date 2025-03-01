@@ -1,4 +1,6 @@
-/* ✅ Global Styles */
+/* ==========================
+   Global Styles
+   ========================== */
 body {
     background-color: #f8f9fa;  /* Soft gray background */
     color: #333;  /* Dark text */
@@ -8,7 +10,9 @@ body {
     padding: 0;
 }
 
-/* ✅ Header */
+/* ==========================
+   Header
+   ========================== */
 .header {
     background-color: #003366; /* Dark navy blue */
     color: white;
@@ -21,7 +25,9 @@ body {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* ✅ Navigation Bar */
+/* ==========================
+   Navigation Bar
+   ========================== */
 .navbar {
     background: #0056b3;  /* Vibrant blue */
     padding: 12px;
@@ -45,7 +51,9 @@ body {
     background: #004080; /* Darker shade of blue */
 }
 
-/* ✅ Content Wrapper */
+/* ==========================
+   Content Wrapper
+   ========================== */
 .container {
     width: 75%;
     margin: 40px auto;
@@ -56,14 +64,18 @@ body {
     text-align: center;
 }
 
-/* ✅ Category & Product Lists */
-.category-list, .product-list {
+/* ==========================
+   Category & Product Lists
+   ========================== */
+.category-list,
+.product-list {
     padding: 0;
     list-style-type: none;
     text-align: center;
 }
 
-.category-list li, .product-list li {
+.category-list li,
+.product-list li {
     background: #e3e6ea; /* Light gray */
     margin: 10px auto;
     padding: 15px;
@@ -74,12 +86,150 @@ body {
     transition: background 0.3s ease-in-out, transform 0.2s;
 }
 
-.category-list li:hover, .product-list li:hover {
+.category-list li:hover,
+.product-list li:hover {
     background: #cbd3da;
     transform: scale(1.03);
 }
 
-/* ✅ Footer */
+.product-list {
+    padding: 0;
+    list-style-type: none; /* no default bullets */
+    text-align: center;
+    margin: 0 auto; /* center the list */
+}
+
+.product-list li {
+    background: #e3e6ea; /* Light gray “card” look */
+    margin: 10px auto;
+    padding: 15px;
+    width: 50%;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out, transform 0.2s;
+}
+
+.product-list li:hover {
+    background: #cbd3da; /* slightly darker gray */
+    transform: scale(1.03); /* subtle hover zoom */
+}
+
+.product-list a {
+    text-decoration: none;
+    color: #0056b3;
+    transition: color 0.3s;
+}
+
+.product-list a:hover {
+    color: #004080;
+}
+
+/* ==========================
+   Forms
+   ========================== */
+.form-container {
+    width: 50%;
+    margin: 30px auto;
+    background: #fff;
+    padding: 20px 25px;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Headings within forms */
+.form-container h3,
+.form-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form elements spacing */
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Text fields, select, textarea */
+.form-group input[type="text"],
+.form-group input[type="number"],
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+/* Radio buttons */
+.form-group input[type="radio"] {
+    margin-right: 6px;
+}
+
+/* Form buttons */
+.form-container button,
+.form-container input[type="submit"] {
+    background: #0056b3;
+    color: #fff;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease-in-out;
+}
+
+.form-container button:hover,
+.form-container input[type="submit"]:hover {
+    background: #004080;
+}
+
+/* Place smaller text or notes below form fields */
+.form-note {
+    font-size: 14px;
+    color: #777;
+    margin-top: 5px;
+}
+
+/* Error messages, if any */
+.error {
+    color: red;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+/* ==========================
+   Grid Layout for Label/Field
+   ========================== */
+/* Use this class on the <form> to place the label on the left and
+   the input on the right, with everything centered in .form-container */
+.form-grid {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    /* "max-content" fits label width, "1fr" expands for the input */
+    column-gap: 20px;
+    row-gap: 15px;
+    align-items: center;
+    justify-content: center;
+    /* horizontally centers the entire grid inside form-container */
+}
+
+/* Each row is label in col 1, field in col 2.
+   If you want to override the "display: block" for labels:
+   .form-grid label { display: inline-block; }
+   But with "max-content", it's typically fine. */
+
+/* ==========================
+   Footer
+   ========================== */
 .footer {
     background: #222; /* Dark footer */
     color: white;
@@ -92,7 +242,7 @@ body {
     gap: 25px;
 }
 
-/* ✅ Footer Links */
+/* Footer Links */
 .footer ul {
     list-style: none;
     padding: 0;
@@ -116,14 +266,17 @@ body {
     color: #1abc9c; /* Nice turquoise color */
 }
 
-/* ✅ Responsive Design */
+/* ==========================
+   Responsive Design
+   ========================== */
 @media (max-width: 768px) {
     .container {
         width: 90%;
         padding: 15px;
     }
 
-    .category-list li, .product-list li {
+    .category-list li,
+    .product-list li {
         width: 80%;
     }
 
@@ -134,5 +287,11 @@ body {
 
     .footer {
         flex-direction: column;
+    }
+
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        /* On smaller screens, labels and fields stack vertically */
     }
 }

@@ -1,0 +1,48 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block title %}
+  Place A New Order
+{% endblock %}
+
+{% block myhdg %}
+  PLACE A NEW ORDER
+{% endblock %}
+
+{% block body_block %}
+<!-- Outer container (white card look) -->
+<div class="container">
+
+  <!-- Inner container for the form -->
+  <div class="form-container">
+    <h2>Place Order</h2>
+
+    <!-- Display any error or success messages in a styled <p> -->
+    {% if msg %}
+      <p class="error">{{ msg }}</p>
+    {% endif %}
+
+    <!-- The actual form -->
+    <form method="POST">
+      {% csrf_token %}
+
+      <!-- as_p: quick layout  -->
+      {{ form.as_p }}
+
+
+      <input type="submit" value="Submit Order">
+    </form>
+  </div>
+
+  <!-- Product list below the form, styled in its own container or section -->
+  <div style="margin-top: 30px;">
+    <h3>Product List:</h3>
+    <ul class="product-list">
+      {% for p in prodlist %}
+        <li>{{ p.name }} - ${{ p.price }} - (In stock: {{ p.stock }})</li>
+      {% endfor %}
+    </ul>
+  </div>
+
+</div>
+{% endblock %}

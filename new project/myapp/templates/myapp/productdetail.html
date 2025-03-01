@@ -1,0 +1,37 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+
+{% block title %}
+  Product Detail
+{% endblock %}
+
+{% block myhdg %}
+  PRODUCT DETAIL
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+  <!-- Product Info Section -->
+  <h2>{{ product.name }}</h2>
+  <p>Price: ${{ product.price }}</p>
+  <p>Interested so far: {{ product.interested }}</p>
+  {% if product.available %}
+    <p>Stock: {{ product.stock }}</p>
+  {% else %}
+    <p style="color:red;">Not Available</p>
+  {% endif %}
+
+  <!-- Form Container for the "Express Interest" form -->
+  <div class="form-container">
+    <h3>Express Your Interest</h3>
+
+    <form method="POST">
+      {% csrf_token %}
+      {{ form.as_p }}
+
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

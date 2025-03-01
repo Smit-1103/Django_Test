@@ -17,6 +17,12 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=100)
     available = models.BooleanField(default=True)
     description = models.TextField(null=True, blank=True)
+    interested = models.PositiveIntegerField(default=0)
+
+    def refill(self):
+        """Adds 100 units to the current stock."""
+        self.stock += 100
+        self.save()
 
     def __str__(self):
         return self.name
