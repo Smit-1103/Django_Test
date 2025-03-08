@@ -1,0 +1,28 @@
+{% extends 'myapp/base.html' %}
+{% block title %}My Orders{% endblock %}
+{% block myhdg %}My Orders{% endblock %}
+{% block body_block %}
+<div class="container">
+  <h2>My Orders</h2>
+  {% if orders %}
+    <ul class="product-list">
+      {% for order in orders %}
+        <li>
+          Order #{{ order.id }}: {{ order.product.name }} - Quantity: {{ order.num_units }} - Status:
+          {% if order.order_status == 0 %}
+            Order Cancelled
+          {% elif order.order_status == 1 %}
+            Order Placed
+          {% elif order.order_status == 2 %}
+            Order Shipped
+          {% elif order.order_status == 3 %}
+            Order Delivered
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>You have not placed any orders yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

@@ -1,10 +1,10 @@
-{% extends "myapp/base.html" %}
-
-{% block title %}About Us{% endblock %}
-
+{% extends 'myapp/base.html' %}
+{% block title %}About{% endblock %}
+{% block myhdg %}About the Online Store{% endblock %}
 {% block body_block %}
 <div class="container">
-    <h2>About This Store</h2>
-    <p>Welcome to the Online Store APP, your go-to platform for all your shopping needs!</p>
+  <h2>About</h2>
+  <p>This is an Online Store APP.</p>
+  <p>You have visited this page {{ visits }} times.</p>
 </div>
 {% endblock %}

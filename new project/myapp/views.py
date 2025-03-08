@@ -1,17 +1,41 @@
 from django.shortcuts import render, get_object_or_404, redirect
-
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+import datetime
 from .forms import OrderForm, InterestForm
-from .models import Category, Product, Order
+from .models import Category, Product, Client, Order
+
 
 def index(request):
-    """ Main landing page displaying categories & top 5 expensive products """
-    cat_list = Category.objects.all().order_by('id')[:10]  # Fetch first 10 categories
-    product_list = Product.objects.all().order_by('-price')[:5]  # Get top 5 expensive products
-    return render(request, 'myapp/index.html', {'cat_list': cat_list, 'product_list': product_list})
+    cat_list = Category.objects.all().order_by('id')[:10]
+    # Try to get the last login time from session
+    last_login = request.session.get('last_login', None)
+    # If not found, try to get it from the cookie
+    if not last_login:
+        last_login = request.COOKIES.get('last_login', None)
+
+    if last_login:
+        login_info = f"Your last login was: {last_login}"
+    else:
+        login_info = "No recent login information available."
+
+    return render(request, 'myapp/index.html', {'cat_list': cat_list, 'login_info': login_info})
+
 
 def about(request):
-    """ Renders the About Us page """
-    return render(request, 'myapp/about.html')
+    # Retrieve cookie; default to 0 if not set.
+    visits = request.COOKIES.get('about_visits', 0)
+    try:
+        visits = int(visits) + 1
+    except ValueError:
+        visits = 1
+
+    response = render(request, 'myapp/about.html', {'visits': visits})
+    # Set cookie to expire in 5 minutes (300 seconds)
+    response.set_cookie('about_visits', visits, max_age=300)
+    return response
 
 def products(request):
     prodlist = Product.objects.all().order_by('id')[:10]
@@ -27,7 +51,7 @@ def detail(request, cat_no):
 
 def place_order(request):
     msg = ''
-    prodlist = Product.objects.all()  # optional, if you want to display on the page
+    prodlist = Product.objects.all()
 
     if request.method == 'POST':
         form = OrderForm(request.POST)
@@ -53,8 +77,6 @@ def place_order(request):
         'prodlist': prodlist
     })
 
-from django.shortcuts import get_object_or_404, redirect
-
 def productdetail(request, prod_id):
     product = get_object_or_404(Product, pk=prod_id)
 
@@ -70,9 +92,6 @@ def productdetail(request, prod_id):
                 product.interested += 1
                 product.save()
 
-            # You might choose to do something with quantity or comments here as well,
-            # such as logging or storing them.
-
             return redirect('myapp:index')  # or back to products, or wherever
     else:
         form = InterestForm()
@@ -81,3 +100,42 @@ def productdetail(request, prod_id):
         'product': product,
         'form': form
     })
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(username=username, password=password)
+        if user:
+            if user.is_active:
+                # Set session expiry to 1 hour
+                request.session.set_expiry(3600)
+                current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+                request.session['last_login'] = current_time
+                login(request, user)
+                response = HttpResponseRedirect(reverse('myapp:index'))
+                # Set cookie to store last login time; for example, expire in 1 hour (3600 seconds)
+                response.set_cookie('last_login', current_time, max_age=3600)
+                return response
+            else:
+                return HttpResponse('Your account is disabled.')
+        else:
+            return HttpResponse('Invalid login details.')
+    else:
+        return render(request, 'myapp/login.html')
+
+@login_required
+def user_logout(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('myapp:index'))
+
+
+@login_required
+def myorders(request):
+    # Check if the logged-in user is a Client.
+    try:
+        client = request.user
+    except Client.DoesNotExist:
+        return HttpResponse("You are not a registered client!")
+
+    orders = Order.objects.filter(client=client)
+    return render(request, 'myapp/myorders.html', {'orders': orders})
